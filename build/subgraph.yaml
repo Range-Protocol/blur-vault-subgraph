@@ -1,0 +1,38 @@
+specVersion: 0.0.5
+description: Range Protocol's subgraph
+repository: https://github.com/Range-Protocol/range-protocol-vault
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: RangeProtocolBlurVault
+    network: mumbai
+    source:
+      address: "0x373C78342AdF83AEC0C3414C9563634a701edC79"
+      abi: RangeProtocolBlurVault
+      startBlock: 42598899
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Vault
+      abis:
+        - name: RangeProtocolBlurVault
+          file: RangeProtocolBlurVault/abis/RangeProtocolBlurVault.json
+        - name: IERC20Metadata
+          file: RangeProtocolBlurVault/abis/IERC20Metadata.json
+      eventHandlers:
+        - event: Minted(indexed address,uint256,uint256)
+          handler: handleMinted
+        - event: Burned(indexed address,uint256,uint256)
+          handler: handleBurned
+        - event: Loaned(uint256,uint256)
+          handler: handleLoaned
+        - event: NFTLiquidated(indexed address,uint256,uint256,address)
+          handler: handleNFTLiquidated
+        - event: AuctionStarted(address,uint256,uint256)
+          handler: handleAuctionStarted
+        - event: NFTSeized(address,uint256,uint256)
+          handler: handleNFTSeized
+      file: RangeProtocolBlurVault/RangeProtocolBlurVault.wasm

@@ -1,0 +1,87 @@
+type Vault @entity {
+  id: Bytes!
+  blurPool: Bytes!
+  blend: Bytes!
+  totalSupply: BigInt!
+  manager: Bytes!
+  managingFee: BigInt!
+  firstMintAtBlock: BigInt!
+  underlyingBalance: BigInt!
+  ownedDebt: BigInt!
+  mints: [Mint!]! @derivedFrom(field: "vault")
+  lastMintIndex: BigInt!
+  burns: [Burn!]! @derivedFrom(field: "vault")
+  lastBurnIndex: BigInt!
+  users: [User!]! @derivedFrom(field: "vault")
+  lastUserIndex: BigInt!
+  loans: [Loan!]! @derivedFrom(field: "vault")
+  lastLoanIndex: BigInt!
+  auctions: [Auction!]! @derivedFrom(field: "vault")
+  lastAuctionIndex: BigInt!
+  seizedNFTs: [NFTSeized!]! @derivedFrom(field: "vault")
+  lastSeizedNFTIndex: BigInt!
+  liquidatedNFTs: [NFTLiquidated!]! @derivedFrom(field: "vault")
+  lastLiquidatedNFTIndex: BigInt!
+}
+
+type User @entity {
+  id: Bytes!
+  balance: BigInt!
+  token: BigInt!
+  userIndex: BigInt!
+  vault: Vault!
+}
+
+type Mint @entity {
+  id: String!
+  receiver: Bytes!
+  mintAmount: BigInt!
+  amountIn: BigInt!
+  timestamp: BigInt!
+  vault: Vault!
+}
+
+type Burn @entity {
+  id: String!
+  receiver: Bytes!
+  burnAmount: BigInt!
+  amountOut: BigInt!
+  timestamp: BigInt!
+  vault: Vault!
+}
+
+type Loan @entity {
+  id: String!
+  lienId: BigInt!
+  amount: BigInt!
+  timestamp: BigInt!
+  vault: Vault!
+}
+
+type Auction @entity {
+  id: String!
+  collection: Bytes!
+  tokenId: BigInt!
+  lienId: BigInt!
+  timestamp: BigInt!
+  vault: Vault!
+}
+
+type NFTSeized @entity {
+  id: String!
+  collection: Bytes!
+  tokenId: BigInt!
+  lienId: BigInt!
+  timestamp: BigInt!
+  vault: Vault!
+}
+
+type NFTLiquidated @entity {
+  id: String!
+  collection: Bytes!
+  tokenId: BigInt!
+  amount: BigInt!
+  recipient: Bytes!
+  timestamp: BigInt!
+  vault: Vault!
+}
